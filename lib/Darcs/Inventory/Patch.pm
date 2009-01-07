@@ -1,10 +1,6 @@
-# Copyright (c) 2007-2008 David Caldwell,  All Rights Reserved. -*- perl -*-
+# Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
 
-use warnings;
-use strict;
-
-package Darcs::Inventory::Patch;
-use base qw(Class::Accessor::Fast);
+package Darcs::Inventory::Patch; use base qw(Class::Accessor::Fast); use warnings; use strict;
 
 use Digest::SHA1 qw(sha1_hex);
 use Time::Local;
@@ -57,6 +53,8 @@ sub as_string($) {
     $s;
 }
 
+use overload '""' => \&as_string;
+
 1;
 __END__
 
@@ -80,11 +78,105 @@ Darcs::Inventory::Patch - Object interface to patches read from the darcs invent
         print $_->file, "\n";         # eg: '0000001672-d672e8c18c22cbd4cc8e65fe80a39e68384133083b0f623ae5d57cc563e5630b'
                                       # (Usually found in "_darcs/patches/")
         print $_->raw, "\n";          # The unparsed lines from the inventory for this patch
+        print $_->as_string, \n";     # The friendly darcs output (like in `darcs changes')
+        print "$_\n";                 # Same as above.
     }
 
     # Or, if you want to do it by hand for some reason:
     use Darcs::Inventory::Patch;
     @raw = Darcs::Inventory::read("darcs_repo_dir/_darcs/inventory");
     $patch = Darcs::Inventory::Patch->new($raw[0]);
+
+=head1 DESCRIPTION
+
+Darcs::Inventory::Patch is an object oriented interface to darcs
+inventory patches.
+
+=head1 FUNCTIONS
+
+=over 4
+
+=item Darcs::Inventory::Patch->new($patch_lines)
+
+This parses the lines from a darcs inventory file of patch and returns
+an object to use for querying.
+
+You probably don't want to use this function directly. Instead, use
+B<< L<Darcs::Inventory>->new >> or B<< L<Darcs::Inventory>->load >> to
+parse the whole inventory.
+
+=item $patch->date
+
+This returns the time of the patch in "integer seconds since the
+epoch" format (GMT timezone). For instance: C<1193248123>.
+
+=item $patch->raw_date
+
+The date from the inventory file (as a string). It will look something
+like this: C<"20071024174843">.
+
+=item $patch->darcs_date
+
+The date in darcs format as a string. It will look something like
+this: C<"Wed Oct 24 10:48:43 PDT 2007">
+
+=item $patch->author
+
+The author string.
+
+=item $patch->undo
+
+This is true if it is an inverted (or undo) patch created by old
+versions of "darcs rollback". The newer darcs' rollback command
+works differently and doesn't set this bit any more.
+
+=item $patch->name
+
+This returns the first line of the record comment as a string (with no newline).
+
+=item $patch->long
+
+This contains the long part of the record comment (lines 2 and on) as
+a string (with no newline on the last line).
+
+=item $patch->hash
+
+This is a the hash of the patch. You can use this in darcs' B<--match> option:
+
+  darcs diff --match="hash $hash"
+
+=item $patch->file
+
+This is the filename of the patch. This is where the actual patch
+contents go. It is usually found in F<_darcs/pathes/$file>.
+
+=item $patch->raw
+
+This is the unparsed patch lines from the inventory file.
+
+=item $patch->as_string
+
+This returns the patch in friendly darcs text form, a la `C<darcs changes>'.
+
+=item "$patch"
+
+Stringifying the patch will also give you the same results of B<< $patch->as_string >>.
+
+=back
+
+=head1 SEE ALSO
+
+L<Darcs::Inventory>
+
+=head1 COPYRIGHT
+
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+Copyright (C) 2007-2009 David Caldwell
+
+=head1 AUTHOR
+
+David Caldwell <david@porkrind.org>
 
 =cut

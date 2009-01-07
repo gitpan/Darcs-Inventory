@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+# Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
+
+use warnings;
+use strict;
+use IPC::Run qw(run);
+use Getopt::Long;
+use Darcs::Inventory;
+use Darcs::Inventory::Diff;
+
+my $smtp_server = "localhost";
+my $help;
+GetOptions('h|help'        => \$help)
+    and scalar @ARGV == 2 and !$help or die "usage: $0 <inventory-1> <inventory-2>\n";
+
+my @inventory = @ARGV;
+
+
+my $a = Darcs::Inventory->load($inventory[0]) or die "Couldn't read $inventory[0]";
+my $b = Darcs::Inventory->load($inventory[1]) or die "Couldn't read $inventory[1]";
+
+my ($not_in_a, $not_in_b) = Darcs::Inventory::Diff::diff($a, $b);
+
+for (@$not_in_a) {
+    print "-".$_->name."\n";
+}
+
+for (@$not_in_b) {
+    print "+".$_->name."\n";
+}

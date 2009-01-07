@@ -1,6 +1,8 @@
 Build.PL
 lib/Darcs/Inventory.pm
 lib/Darcs/Inventory/Patch.pm
+lib/Darcs/Inventory/Diff.pm
+darcs-diff-inventory
 LICENSE.Artistic
 LICENSE.GPL
 MANIFEST			This list of files

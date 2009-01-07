@@ -11,15 +11,29 @@ my @flavor = ( {flavor=>'darcs-old',    format=>'old',                inventory=
                {flavor=>'darcs-hashed', format=>"hashed\n",           inventory=>'hashed_inventory' },
                {flavor=>'darcs-2',      format=>"hashed\ndarcs-2\n",  inventory=>'hashed_inventory' } );
 
-my $create_cache = List::Util::first { $_ eq '--cache' } @ARGV;
-
 sub load_flavor($)
 {
     my ($flavor) = @_;
     my $dir = "t/$flavor";
 
+    my $have_xml_simple = eval "use XML::Simple; 1;";
+    my $have_darcs = !!`darcs --version`;
+
     # Let you test even if you don't have a darcs executable or XML::Simple:
-    if (!$create_cache && -f "t/$flavor/darcs-changes.pl") { return @{do "t/$flavor/darcs-changes.pl"} };
+    if ((!$have_darcs || !$have_xml_simple) && -f "t/$flavor/darcs-changes.pl") { 
+        return map {
+            # It is pointless to test the local date if we are getting the data from cache.
+            # This is because we'd have to interpret it and translate it into the local time zone
+            # and if we are doing that then we may as well just translate it from the darcs_date.
+            # which is just reusing the code from Darcs::Inventory::Patch and therefore not really
+            # a test at all.
+            delete $_->{local_date};
+            $_
+        } @{do "t/$flavor/darcs-changes.pl"}
+    }
+
+    die "No XML::Simple and no cached darcs output" unless $have_xml_simple;
+    die "No darcs and no cached darcs output" unless $have_darcs;
 
     my $darcs_changes_xml;
     open CHANGES, "-|", qw(darcs change --xml), "--repo=t/$flavor" or die "$flavor: darcs changes: $!";
@@ -29,7 +43,6 @@ sub load_flavor($)
         close CHANGES;
     }
 
-    eval "use XML::Simple; 1;" or die "No XML::Simple and no cached darcs output";
     my @darcs_patches = reverse @{XMLin($darcs_changes_xml, ForceArray=>1)->{patch}};
 
     # Stupid XML::Simple
@@ -39,18 +52,14 @@ sub load_flavor($)
     }
 
     use Data::Dumper;
-    if ($create_cache) {
-        open CACHE, ">", "t/$flavor/darcs-changes.pl" or die "t/$flavor/darcs-changes.pl: $!";
-        print CACHE Data::Dumper->Dump([\@darcs_patches], ["darcs_patches"]);
-        close CACHE;
-    }
+    open CACHE, ">", "t/$flavor/darcs-changes.pl" or die "t/$flavor/darcs-changes.pl: $!";
+    print CACHE Data::Dumper->Dump([\@darcs_patches], ["darcs_patches"]);
+    close CACHE;
 
     @darcs_patches;
 }
 
 @{$_->{patches}} = load_flavor $_->{flavor} foreach @flavor;
-# use Data::Dumper;
-# print Dumper \@flavor;
 
 my $patches = List::Util::sum map { scalar @{$_->{patches}} } @flavor;
 
@@ -73,7 +82,10 @@ sub test_flavor($)
         is($patches[$_]->undo ? 'True' : 'False', $darcs_patches[$_]->{inverted},               "$flavor: patch $_ undo");
         is($patches[$_]->author,                  $darcs_patches[$_]->{author},                 "$flavor: patch $_ author");
         is($patches[$_]->raw_date,                $darcs_patches[$_]->{date},                   "$flavor: patch $_ raw_date");
-        is($patches[$_]->darcs_date,              $darcs_patches[$_]->{local_date},             "$flavor: patch $_ darcs_date");
+      SKIP: {
+          skip "missing darcs and XML::Simple", 1 unless $darcs_patches[$_]->{local_date};
+          is($patches[$_]->darcs_date,            $darcs_patches[$_]->{local_date},             "$flavor: patch $_ darcs_date");
+        }
         is($patches[$_]->name,                    $darcs_patches[$_]->{name}->[0],              "$flavor: patch $_ name");
         is($patches[$_]->long,                    ($darcs_patches[$_]->{comment}||[''])->[0],   "$flavor: patch $_ long");
     }
