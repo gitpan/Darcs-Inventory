@@ -1,0 +1,27 @@
+2009-01-08  David Caldwell  <david@porkrind.org>
+
+	* t/inventory.t: Fix tests failing on computers with LANG != C
+
+	* Released 1.0.2
+
+2009-01-07  David Caldwell  <david@porkrind.org>
+
+	* t/inventory.t: Fix tests failing on computers with darcs
+	installed in other timezones.
+
+	* Released 1.0.1
+
+2009-01-06  David Caldwell  <david@porkrind.org>
+
+	* Darcs::Inventory::Diff: Added (generalized from darcs-notify).
+
+	* All: Added lots of documentation.
+
+	* Released 1.0
+
+2009-01-01  David Caldwell  <david@porkrind.org>
+
+	* Darcs::Inventory, Darcs::Inventory::Patch: Added (generalized
+	from darcs-notify)
+
+	* Released 0.9

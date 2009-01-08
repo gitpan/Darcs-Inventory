@@ -6,6 +6,9 @@ use warnings;
 use Test::More;
 use List::Util;
 use Darcs::Inventory;
+use POSIX qw(locale_h);
+setlocale(LC_TIME, "C"); # Darcs ingores the locale. Perl doesn't. It seems better to use the locale! But when
+                         # testing against darcs we need to set the locale to english so that we can test.
 
 my @flavor = ( {flavor=>'darcs-old',    format=>'old',                inventory=>'inventory' },
                {flavor=>'darcs-hashed', format=>"hashed\n",           inventory=>'hashed_inventory' },
@@ -20,7 +23,7 @@ sub load_flavor($)
     my $have_darcs = !!`darcs --version`;
 
     # Let you test even if you don't have a darcs executable or XML::Simple:
-    if ((!$have_darcs || !$have_xml_simple) && -f "t/$flavor/darcs-changes.pl") { 
+    if ((!$have_darcs || !$have_xml_simple) && -f "t/$flavor/darcs-changes.pl") {
         return map {
             # It is pointless to test the local date if we are getting the data from cache.
             # This is because we'd have to interpret it and translate it into the local time zone

@@ -3,8 +3,8 @@
 package Darcs::Inventory::Patch; use base qw(Class::Accessor::Fast); use warnings; use strict;
 
 use Digest::SHA1 qw(sha1_hex);
-use Time::Local;
-use POSIX;
+use Time::Local qw(timegm);
+use POSIX qw(strftime);
 
 Darcs::Inventory::Patch->mk_accessors(qw(date raw_date author undo name long hash file raw));
 
