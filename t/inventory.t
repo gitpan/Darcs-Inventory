@@ -52,9 +52,10 @@ sub load_flavor($)
     }
 
     use Data::Dumper;
-    open CACHE, ">", "t/$flavor/darcs-changes.pl" or die "t/$flavor/darcs-changes.pl: $!";
-    print CACHE Data::Dumper->Dump([\@darcs_patches], ["darcs_patches"]);
-    close CACHE;
+    if (open CACHE, ">", "t/$flavor/darcs-changes.pl") { # Module::Build makes this read-only. Weak.
+        print CACHE Data::Dumper->Dump([\@darcs_patches], ["darcs_patches"]);
+        close CACHE;
+    }
 
     @darcs_patches;
 }

@@ -1,7 +1,7 @@
 # Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
 
 package Darcs::Inventory; use strict; use warnings;
-our $VERSION = '1.0';
+our $VERSION = '1.0.1';
 
 use Darcs::Inventory::Patch;
 
