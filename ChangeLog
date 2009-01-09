@@ -1,3 +1,12 @@
+2009-01-09  David Caldwell  <david@porkrind.org>
+
+	* lib/Darcs/Inventory/Patch.pm: Add diff and diffstat member
+	functions (moved from Darcs::Notify::Email).
+
+	* lib/Darcs/Inventory/Patch.pm: Fix up newlines in as_string().
+
+	* Released 1.1
+
 2009-01-08  David Caldwell  <david@porkrind.org>
 
 	* t/inventory.t: Fix tests failing on computers with LANG != C

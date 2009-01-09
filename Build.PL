@@ -19,6 +19,7 @@ Module::Build->subclass(
     dist_author => 'David Caldwell <david@porkrind.org>',
     requires    => { 'Digest::SHA1'  => 0,
                      'Time::Local'   => 0,
+                     'IPC::Run'      => 0,
                      'Class::Accessor::Fast' => 0
     },
 )->create_build_script;

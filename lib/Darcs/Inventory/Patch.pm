@@ -5,6 +5,7 @@ package Darcs::Inventory::Patch; use base qw(Class::Accessor::Fast); use warning
 use Digest::SHA1 qw(sha1_hex);
 use Time::Local qw(timegm);
 use POSIX qw(strftime);
+use IPC::Run qw(run);
 
 Darcs::Inventory::Patch->mk_accessors(qw(date raw_date author undo name long hash file raw));
 
@@ -42,15 +43,33 @@ sub new($$) {
     return bless { %patch }, $class;
 }
 
-sub darcs_date($ ) {
+sub darcs_date($) {
     darcs_date_str $_[0]->date
 }
 
 sub as_string($) {
     my ($p) = @_;
-    my $s = sprintf("%s %s\n  %s %s\n%s", $p->darcs_date, $p->author, $p->undo ? 'UNDO:' : '*', $p->name, $p->long);
-    $s =~ s/^Ignore-this:\s+[0-9a-f]+$//m;
+    my $s = sprintf("%s %s\n  %s %s\n%s\n", $p->darcs_date, $p->author, $p->undo ? 'UNDO:' : '*', $p->name, $p->long);
+    $s =~ s/^Ignore-this:\s+[0-9a-f]+\n//m;
     $s;
+}
+
+sub diff($) {
+    my ($self) = @_;
+    my $error;
+    run([qw(darcs diff -u --match), "hash ".$self->hash], '>', \$self->{diff}, '2>', \$error) or die "$error\n"
+        unless defined $self->{diff};
+    return $self->{diff};
+}
+
+sub diffstat($) {
+    my ($self) = @_;
+    unless ($self->{diffstat}) {
+        my $diff = $self->diff;
+        my $error;
+        run([qw(diffstat)], '<', \$diff, '>', \$self->{diffstat}, '2>', \$error) or die "$error\n";
+    }
+    $self->{diffstat};
 }
 
 use overload '""' => \&as_string;
@@ -80,6 +99,8 @@ Darcs::Inventory::Patch - Object interface to patches read from the darcs invent
         print $_->raw, "\n";          # The unparsed lines from the inventory for this patch
         print $_->as_string, \n";     # The friendly darcs output (like in `darcs changes')
         print "$_\n";                 # Same as above.
+        print $_->diff, \n";          # Runs `darcs' to compute the universal diff of the patch.
+        print $_->diffstat, \n";      # Runs `diffstat' on $_->diff output.
     }
 
     # Or, if you want to do it by hand for some reason:
@@ -161,6 +182,17 @@ This returns the patch in friendly darcs text form, a la `C<darcs changes>'.
 =item "$patch"
 
 Stringifying the patch will also give you the same results of B<< $patch->as_string >>.
+
+=item $patch->diff
+
+This returns the universal diff of a patch. This is implented by running
+"darcs diff -u --match "hash $patch->hash" and collecting the output.
+
+=item $patch->diffstat
+
+This returns the diffstat of a patch. This requires the external
+program "diffstat" as it is implemented by running diffstat with the
+output of $patch->diff.
 
 =back
 
