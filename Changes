@@ -1,3 +1,9 @@
+Darcs-Inventory (1.3)
+
+  * Same as 1.2.1. Perl's version module sucks.
+
+ -- David Caldwell <david@porkrind.org>  Fri, 23 Jan 2009 17:30:22 -0800
+
 Darcs-Inventory (1.2.1)
 
   * Fixed t/diff.t to work with darcs 2 versions that default to the old
