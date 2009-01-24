@@ -1,6 +1,6 @@
 ---
 name: Darcs-Inventory
-version: 1.1
+version: 1.2
 author:
   - 'David Caldwell <david@porkrind.org>'
 abstract: Read and parse a darcs version 1 or 2 inventory file
@@ -15,7 +15,7 @@ requires:
 provides:
   Darcs::Inventory:
     file: lib/Darcs/Inventory.pm
-    version: 1.1
+    version: 1.2
   Darcs::Inventory::Diff:
     file: lib/Darcs/Inventory/Diff.pm
   Darcs::Inventory::Patch:

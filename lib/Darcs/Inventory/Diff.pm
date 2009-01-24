@@ -8,7 +8,11 @@ our @EXPORT = qw(darcs_inventory_diff);
 sub hashify($) {
     my $order = 0;
     return () unless defined $_[0];
-    map { $_->raw => { order => $order++, patch => $_ } } $_[0]->patches;
+    map {
+        my $diffable = $_->raw;
+        $diffable =~ s/^hash:.*//m; # Hashes can change but still be the same patch (patches before it in the inventory may affect its line numbers)
+        $diffable => { order => $order++, patch => $_ }
+    } $_[0]->patches;
 }
 
 sub unhashify($) {

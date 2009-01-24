@@ -1,0 +1,45 @@
+Darcs-Inventory (1.2)
+
+  * Reformatted Changes file to be more release oriented.
+
+  * Fix bug where unpulling old patches in a hashed repository would make
+    it look like some patches after it in the invetory were different.
+
+ -- David Caldwell <david@porkrind.org>  Fri, 23 Jan 2009 15:42:37 -0800
+
+Darcs-Inventory (1.1)
+
+  * lib/Darcs/Inventory/Patch.pm: Add diff and diffstat member functions
+    (moved from Darcs::Notify::Email).
+
+  * lib/Darcs/Inventory/Patch.pm: Fix up newlines in as_string().
+
+ -- David Caldwell <david@porkrind.org>  Fri, 09 Jan 2009 05:00:00 -0800
+
+Darcs-Inventory (1.0.2)
+
+  * t/inventory.t: Fix tests failing on computers with LANG != C
+
+ -- David Caldwell <david@porkrind.org>  Fri, 08 Jan 2009 14:01:00 -0800
+
+Darcs-Inventory (1.0.1)
+
+  * t/inventory.t: Fix tests failing on computers with darcs installed in
+    other timezones.
+
+ -- David Caldwell <david@porkrind.org>  Fri, 07 Jan 2009 16:45:00 -0800
+
+Darcs-Inventory (1.0)
+
+  * Added Darcs::Inventory::Diff (generalized from darcs-notify).
+
+  * Added lots of documentation.
+
+ -- David Caldwell <david@porkrind.org>  Fri, 07 Jan 2009 04:36:00 -0800
+
+Darcs-Inventory (0.9)
+
+  * Darcs::Inventory, Darcs::Inventory::Patch: Added (generalized from
+    darcs-notify)
+
+ -- David Caldwell <david@porkrind.org>  Fri, 01 Jan 2009 20:15:00 -0800

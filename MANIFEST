@@ -3,7 +3,7 @@ lib/Darcs/Inventory.pm
 lib/Darcs/Inventory/Patch.pm
 lib/Darcs/Inventory/Diff.pm
 darcs-diff-inventory
-ChangeLog
+Changes
 LICENSE.Artistic
 LICENSE.GPL
 MANIFEST			This list of files
@@ -17,4 +17,8 @@ t/darcs-hashed/_darcs/hashed_inventory
 t/darcs-hashed/darcs-changes.pl
 t/darcs-old/_darcs/inventory
 t/darcs-old/darcs-changes.pl
+t/darcs-diff-test/inventory_new
+t/darcs-diff-test/inventory_old
+t/basic.t
+t/diff.t
 t/inventory.t
