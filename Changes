@@ -1,3 +1,10 @@
+Darcs-Inventory (1.4)
+
+  * Darcs::Inventory::Diff: Change use of exporter to be more old school;
+    5.6.2 versions of CPAN test machines were choking on the "new" style.
+
+ -- David Caldwell <david@porkrind.org>  Sat, 24 Jan 2009 13:36:14 -0800
+
 Darcs-Inventory (1.3)
 
   * Same as 1.2.1. Perl's version module sucks.
@@ -18,7 +25,8 @@ Darcs-Inventory (1.2)
   * Reformatted Changes file to be more release oriented.
 
   * Fix bug where unpulling old patches in a hashed repository would make
-    it look like some patches after it in the invetory were different.
+    Darcs::Inventory::Diff think some patches after it in the inventory
+    were different.
 
  -- David Caldwell <david@porkrind.org>  Fri, 23 Jan 2009 15:42:37 -0800
 

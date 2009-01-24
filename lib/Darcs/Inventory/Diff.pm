@@ -1,7 +1,7 @@
 # Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
 
 package Darcs::Inventory::Diff; use warnings; use strict;
-use Exporter 'import'; our @EXPORT = qw(darcs_inventory_diff);
+require Exporter; our @ISA = qw(Exporter); our @EXPORT = qw(darcs_inventory_diff);
 
 *darcs_inventory_diff = \&diff;
 
