@@ -19,7 +19,7 @@ if ($have_darcs) {
     # patch affects the line numbers of other patches.
     my $setup = <<'SETUP';
 rm -rf _darcs a
-darcs init
+darcs init --hashed
 printf "1\n2\n3\n4\n5\n" > a
 darcs add a
 darcs record --ignore-times --all --author="test" -m "1"

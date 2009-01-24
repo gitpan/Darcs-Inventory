@@ -1,3 +1,12 @@
+Darcs-Inventory (1.2.1)
+
+  * Fixed t/diff.t to work with darcs 2 versions that default to the old
+    repo format.
+
+  * Fixed function export in Darcs::Inventory::Diff.
+
+ -- David Caldwell <david@porkrind.org>  Fri, 23 Jan 2009 16:31:26 -0800
+
 Darcs-Inventory (1.2)
 
   * Reformatted Changes file to be more release oriented.
