@@ -24,7 +24,7 @@ sub parse_patch($) {
     @patch{qw(name meta long)} = (shift @line, shift @line, join "", map substr("$_\n",1), @line);
     chomp $patch{long};
     # Jim Radford <radford@golemgroup.com>**20061013045032] 
-    $patch{meta} =~ /^(.*)\*([-*])(\d{14})/;
+    $patch{meta} =~ /^(.*)\*([-*])(\d{14})/ or die __PACKAGE__.": Internal Error--Couldn't parse patch:\n$_[0]\n";
     @patch{qw(author undo date raw_date raw)} = ($1, !!($2 eq '-'), date_from_darcs($3), $3, $_[0]);
 
     # This hash code comes from reading this: http://wiki.darcs.net/DarcsWiki/NamedPatch
@@ -169,7 +169,7 @@ This is a the hash of the patch. You can use this in darcs' B<--match> option:
 =item $patch->file
 
 This is the filename of the patch. This is where the actual patch
-contents go. It is usually found in F<_darcs/pathes/$file>.
+contents go. It is usually found in F<_darcs/patches/$file>.
 
 =item $patch->raw
 

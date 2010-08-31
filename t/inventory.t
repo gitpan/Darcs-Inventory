@@ -64,6 +64,8 @@ sub load_flavor($)
 }
 
 @{$_->{patches}} = load_flavor $_->{flavor} foreach @flavor;
+# use Data::Dumper;
+# print Dumper \@flavor;
 
 my $patches = List::Util::sum map { scalar @{$_->{patches}} } @flavor;
 

@@ -1,3 +1,15 @@
+Darcs-Inventory (1.5)
+
+  * Fixed inventory parsing problem when a '[' was in the first character
+    of one of the lines in a long comment.
+
+  * Fixed some documentation typos.
+
+  * Added slightly better error reporting when encountering an error
+    during inventory parsing.
+
+ -- David Caldwell <david@porkrind.org>  Tue, 31 Aug 2010 12:31:50 -0700
+
 Darcs-Inventory (1.4)
 
   * Darcs::Inventory::Diff: Change use of exporter to be more old school;

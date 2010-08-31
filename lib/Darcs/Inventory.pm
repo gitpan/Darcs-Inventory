@@ -1,7 +1,7 @@
 # Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
 
 package Darcs::Inventory; use strict; use warnings;
-our $VERSION = '1.4';
+our $VERSION = '1.5';
 
 use Darcs::Inventory::Patch;
 
@@ -13,7 +13,7 @@ sub read($) {
         next if /^pristine:$/ && !defined $patch;
         $patch[-1] .= "\n$1" if /^(hash: .*)$/ && !defined $patch;
         (push(@patch, $patch . ($1||"")), undef $patch) if s/^(.*\*[-*]\d{14})?\]//;
-        $patch = '' if s/^\s*\[//;
+        $patch = '' if !defined $patch && s/^\s*\[//;
         $patch .= $_ if defined $patch;
     }
     close INV;
