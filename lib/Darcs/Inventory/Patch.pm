@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
+# Copyright (c) 2007-2012 David Caldwell,  All Rights Reserved. -*- perl -*-
 
 package Darcs::Inventory::Patch; use base qw(Class::Accessor::Fast); use warnings; use strict;
 
@@ -205,7 +205,7 @@ L<Darcs::Inventory>
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
-Copyright (C) 2007-2009 David Caldwell
+Copyright (C) 2007-2012 David Caldwell
 
 =head1 AUTHOR
 

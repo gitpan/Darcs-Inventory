@@ -17,7 +17,7 @@ Module::Build->subclass(
     module_name => 'Darcs::Inventory',
     license     => 'perl',
     dist_author => 'David Caldwell <david@porkrind.org>',
-    requires    => { 'Digest::SHA1'  => 0,
+    requires    => { 'Digest::SHA'   => 0,
                      'Time::Local'   => 0,
                      'IPC::Run'      => 0,
                      'Class::Accessor::Fast' => 0

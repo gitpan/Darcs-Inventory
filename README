@@ -20,7 +20,7 @@ To build, test and install:
 License
 -------
 
-Copyright 2007-2009 David Caldwell <david@porkrind.org>
+Copyright 2007-2012 David Caldwell <david@porkrind.org>
 
 This perl module is free software; it may be redistributed
 and/or modified under the same terms as Perl itself.

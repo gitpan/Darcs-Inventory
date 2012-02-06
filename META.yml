@@ -13,16 +13,16 @@ name: Darcs-Inventory
 provides:
   Darcs::Inventory:
     file: lib/Darcs/Inventory.pm
-    version: 1.6
+    version: 1.7
   Darcs::Inventory::Diff:
     file: lib/Darcs/Inventory/Diff.pm
   Darcs::Inventory::Patch:
     file: lib/Darcs/Inventory/Patch.pm
 requires:
   Class::Accessor::Fast: 0
-  Digest::SHA1: 0
+  Digest::SHA: 0
   IPC::Run: 0
   Time::Local: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.6
+version: 1.7

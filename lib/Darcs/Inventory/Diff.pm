@@ -1,4 +1,4 @@
-# Copyright (c) 2007-2009 David Caldwell,  All Rights Reserved. -*- perl -*-
+# Copyright (c) 2007-2012 David Caldwell,  All Rights Reserved. -*- perl -*-
 
 package Darcs::Inventory::Diff; use warnings; use strict;
 require Exporter; our @ISA = qw(Exporter); our @EXPORT = qw(darcs_inventory_diff);
@@ -92,7 +92,7 @@ L<Darcs::Inventory>, L<Darcs::Inventory::Patch>
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
-Copyright (C) 2007-2009 David Caldwell
+Copyright (C) 2007-2012 David Caldwell
 
 =head1 AUTHOR
 
