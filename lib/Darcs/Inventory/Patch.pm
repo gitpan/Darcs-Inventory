@@ -2,7 +2,7 @@
 
 package Darcs::Inventory::Patch; use base qw(Class::Accessor::Fast); use warnings; use strict;
 
-use Digest::SHA1 qw(sha1_hex);
+use Digest::SHA qw(sha1_hex);
 use Time::Local qw(timegm);
 use POSIX qw(strftime);
 use IPC::Run qw(run);
